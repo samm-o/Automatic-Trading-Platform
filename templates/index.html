@@ -7,11 +7,30 @@
 	<body>
 		<div class='ui container'>
 			<h1>Stock List</h1>
+
+			<form method="get">
+				<select name="filter">
+					<option value="">All Stocks</option>
+					<option {% if request.query_params.filter == 'new_closing_highs' %}selected="selected"{%endif%}
+						value="new_closing_highs">New Closing Highs</option>
+					<option {% if request.query_params.filter == 'new_closing_lows' %}selected="selected"{%endif%}
+						value="new_closing_lows">New Closing Lows</option>
+					<option {% if request.query_params.filter == 'rsi_overbought' %}selected="selected"{%endif%}
+						value="rsi_overbought">RSI Overbought</option>
+					<option {% if request.query_params.filter == 'rsi_oversold' %}selected="selected"{%endif%}
+						value="rsi_oversold">RSI Oversold</option>
+				</select>
+				<input type="submit"/>
+			</form>
 			<table class="ui padded selectable inverted table">
 				<thead>
 					<tr>
 						<th>Symbol</th>
 						<th>Name</th>
+						<th>Price</th>
+						<th>RSI 14</th>
+						<th>SMA 20</th>
+						<th>SMA 50</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -19,6 +38,24 @@
 					<tr>
 						<td>{{stock.symbol}}</td>
 						<td><a href="/stock/{{stock.symbol}}">{{stock.name}}</a></td>
+						{% if indicator_values[stock.symbol] %}
+							<td>{{ indicator_values[stock.symbol].close }}</td>
+							{% if indicator_values[stock.symbol].rsi_14 %}
+								<td>{{ indicator_values[stock.symbol].rsi_14|round(2) }}</td>
+							{% else %}
+								<td>NONE</td>
+							{% endif %}
+							{% if indicator_values[stock.symbol].sma_20 %}
+								<td>{{ indicator_values[stock.symbol].sma_20|round(2) }}</td>
+							{% else %}
+								<td>NONE</td>
+							{% endif %}
+							{% if indicator_values[stock.symbol].sma_50 %}
+								<td>{{ indicator_values[stock.symbol].sma_50|round(2) }}</td>
+							{% else %}
+								<td>NONE</td>
+							{% endif %}
+						{% endif %}
 					</tr>
 				{% endfor %}
 				</tbody>

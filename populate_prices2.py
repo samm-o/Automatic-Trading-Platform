@@ -4,6 +4,7 @@ from ib_insync import *
 from datetime import datetime
 import tulipy
 import numpy
+import time
 import concurrent.futures
 
 def process_symbol(symbol):
@@ -113,29 +114,34 @@ for row in rows:
     symbols.append(symbol) 
     stock_dict[symbol] = row['id']
 
-# Connect to TWS
-ib = IB()
-ib.connect(config.TWS_HOST, config.TWS_PORT, clientId=config.TWS_CLIENT_ID) # replace with your connection details
+# Create a list to store the IB instances
+ib_instances = []
+
+# Create multiple TWS connections
+for i in range(10):  # Change the number of connections as needed
+    ib = IB()
+    ib.connect(config.TWS_HOST, config.TWS_PORT, clientId=config.TWS_CLIENT_ID + i)
+    ib_instances.append(ib)
+    time.sleep(1)  # Add a delay between connections to avoid connection issues
 
 # Get the current date
 current_date = datetime.today()
 
 # Create a ThreadPoolExecutor with a maximum of 10 threads
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+with concurrent.futures.ThreadPoolExecutor() as executor:
     # Create a list to store the futures
     futures = []
 
     # Submit a task for each symbol
     for symbol in symbols:
         # Submit the task to the executor and store the future
-        future = executor.submit(process_symbol, symbol)
+        future = executor.submit(process_symbol(symbol))
         futures.append(future)
-        connection.commit()
-
     # Wait for all the futures to complete
     for future in concurrent.futures.as_completed(futures):
         # Get the result of the future (if any)
         result = future.result()
 
-# Disconnect from TWS
-ib.disconnect()
+# Disconnect from all TWS sessions
+for ib in ib_instances:
+    ib.disconnect()
