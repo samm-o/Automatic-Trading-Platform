@@ -35,14 +35,52 @@ def index(request: Request):
         """)
     elif stock_filter == 'rsi_overbought':
         cursor.execute(""" 
-        select * from(
             select symbol, name, stock_id, datetime
             from stock_price join stock on stock.id = stock_price.stock_id
             where rsi_14 > 70
             AND datetime = (select max(datetime) from stock_price)
+            order by symbol
         """)
     elif stock_filter == 'rsi_oversold':
-        pass
+        cursor.execute(""" 
+            select symbol, name, stock_id, datetime
+            from stock_price join stock on stock.id = stock_price.stock_id
+            where rsi_14 < 30
+            AND datetime = (select max(datetime) from stock_price)
+            order by symbol
+        """)
+    elif stock_filter == 'above_sma_20':
+        cursor.execute(""" 
+            select symbol, name, stock_id, datetime
+            from stock_price join stock on stock.id = stock_price.stock_id
+            where close > sma_20
+            AND datetime = (select max(datetime) from stock_price)
+            order by symbol
+        """)
+    elif stock_filter == 'below_sma_20':
+        cursor.execute(""" 
+            select symbol, name, stock_id, datetime
+            from stock_price join stock on stock.id = stock_price.stock_id
+            where close < sma_20
+            AND datetime = (select max(datetime) from stock_price)
+            order by symbol
+        """)
+    elif stock_filter == 'above_sma_50':
+        cursor.execute(""" 
+            select symbol, name, stock_id, datetime
+            from stock_price join stock on stock.id = stock_price.stock_id
+            where close > sma_50
+            AND datetime = (select max(datetime) from stock_price)
+            order by symbol
+        """)
+    elif stock_filter == 'below_sma_50':
+        cursor.execute(""" 
+            select symbol, name, stock_id, datetime
+            from stock_price join stock on stock.id = stock_price.stock_id
+            where close < sma_50
+            AND datetime = (select max(datetime) from stock_price)
+            order by symbol
+        """)
     else:
         cursor.execute("""
     SELECT id, symbol, name FROM stock ORDER BY symbol
@@ -102,6 +140,14 @@ def apply_strategy(strategy_id: int = Form(...), stock_id: int = Form(...)):
     connection.commit()
     
     return RedirectResponse(url=f"/strategy/{strategy_id}", status_code=303)
+
+@app.get("/strategies")
+def strategies(request: Request):
+    return templates.TemplateResponse("strategies.html", {"request": request})
+
+@app.get("/orders")
+def orders(request: Request):
+    return templates.TemplateResponse("orders.html", {"request": request})
 
 @app.get("/strategy/{strategy_id}")
 def strategy(request: Request, strategy_id):
