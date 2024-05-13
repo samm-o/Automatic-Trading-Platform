@@ -1,15 +1,20 @@
-API_KEY = 'PK0B1GIVCHZM714N8JKA'
-SECRET = 'qeJck21OO4x2Reh2CLkGeqghqNT1ANDHHVAqcFv2'
+API_KEY = ''
+SECRET = ''
 API_URL = 'https://paper-api.alpaca.markets'
-TWS_HOST = '10.0.0.36'
-TWS_PORT = 7497
-TWS_CLIENT_ID = 100
+# Replace these parameters with your Alpaca API settings
 
-DB_FILE = 'C:/Users/Samuil Georgiev/Projects/FullstackTradingApp/app1.db'
+TWS_HOST = ''
+TWS_PORT = 
+TWS_CLIENT_ID = 
+# Replace these parameters with your Interactive Brokers API settings
 
-EMAIL_ADDRESS = 'protradernotifs@gmail.com'
-EMAIL_PASSWORD = 'kixq cpef ulmn dstk'
+DB_FILE = ''
+# Replace this with the path to your MySQL database file
+
+EMAIL_ADDRESS = ''
+EMAIL_PASSWORD = ''
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
+EMAIL_PORT = 
+# Replace these parameters with your contact details
 
 # SMS_ADDRESS = '' # replace with your Twilio phone number
