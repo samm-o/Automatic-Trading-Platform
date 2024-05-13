@@ -10,11 +10,11 @@ import mysql.connector
 current_date = datetime.today()
 
 connection = mysql.connector.connect(
-host="127.0.0.1",
-user="root",
-password="toor",
-database="app2"
-)
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
 symbols = []
 stock_ids = {}
@@ -43,11 +43,11 @@ def split_list(lst, n):
 def process_symbol(symbol_chunk):
     
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
     cursor = connection.cursor(dictionary=True, buffered=True)
     ib = IB()
