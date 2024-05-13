@@ -9,11 +9,11 @@ from utilities import calc_quantity, buy_order, take_profit_order, stop_order, t
 context = ssl.create_default_context()
 
 connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
 cursor = connection.cursor(dictionary=True)
 
