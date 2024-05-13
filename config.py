@@ -3,9 +3,9 @@ SECRET = 'qeJck21OO4x2Reh2CLkGeqghqNT1ANDHHVAqcFv2'
 API_URL = 'https://paper-api.alpaca.markets'
 TWS_HOST = '10.0.0.36'
 TWS_PORT = 7497
-TWS_CLIENT_ID = 123
+TWS_CLIENT_ID = 100
 
-DB_FILE = 'C:/Users/Samuil Georgiev/Projects/FullstackTradingApp/app.db'
+DB_FILE = 'C:/Users/Samuil Georgiev/Projects/FullstackTradingApp/app1.db'
 
 EMAIL_ADDRESS = 'protradernotifs@gmail.com'
 EMAIL_PASSWORD = 'kixq cpef ulmn dstk'

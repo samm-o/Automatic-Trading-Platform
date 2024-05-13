@@ -1,10 +1,14 @@
-import sqlite3, config
+import mysql.connector, config
 import alpaca_trade_api as tradeapi
 
-connection = sqlite3.connect(config.DB_FILE)
-connection.row_factory = sqlite3.Row
+connection = mysql.connector.connect(
+    host="127.0.0.1",
+    user="root",
+    password="toor",
+    database="app2"
+  )
 
-cursor = connection.cursor()
+cursor = connection.cursor(dictionary=True)
 
 cursor.execute("""
     SELECT symbol, name FROM stock
@@ -20,7 +24,7 @@ for asset in assets:
     try:
         if asset.symbol not in symbols and asset.status == 'active' and asset.tradable:
             print(f"Added a new stock: {asset.symbol} {asset.name}")
-            cursor.execute("INSERT INTO stock (symbol, name, exchange) VALUES (?, ?, ?)", (asset.symbol, asset.name, asset.exchange))
+            cursor.execute("INSERT INTO stock (symbol, name, exchange) VALUES (%s, %s, %s)", (asset.symbol, asset.name, asset.exchange))
     except Exception as e:
         print(asset.symbol)
         print(e)

@@ -1,0 +1,9 @@
+.chart-container {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .chart-container iframe {
+    height: 70vh !important;
+    width: 100% !important;
+  }

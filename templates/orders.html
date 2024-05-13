@@ -1,5 +1,36 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Orders</h1>
+<h1>Daily Trades</h1>
+
+<table class="ui padded selectable inverted table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Symbol</th>
+            <th>Action</th>
+            <th>Filled Quantity</th>
+            <th>Realized PNL</th>
+        </tr>
+    </thead>
+{% for trade in trades %}
+    <tr>
+        <td>
+            {{ trade.contract.lastTradeDateOrContractMonth }}
+        </td>
+        <td>
+            {{ trade.contract.symbol }}
+        </td>
+        <td>
+            {{ trade.order.action }}
+        </td>
+        <td>
+            {{ trade.order.filledQuantity }}
+        </td>
+        <td>
+            {{ trade.fills[0].commissionReport.realizedPNL }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
 {% endblock %}

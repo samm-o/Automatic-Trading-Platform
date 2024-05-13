@@ -4,13 +4,18 @@ from ib_insync import *
 import config
 import smtplib, ssl
 from  timezone import isDST
+import mysql.connector
 
 context = ssl.create_default_context()
 
-connection = sqlite3.connect(config.DB_FILE)
-connection.row_factory = sqlite3.Row
+connection = mysql.connector.connect(
+    host="127.0.0.1",
+    user="root",
+    password="toor",
+    database="app2"
+    )
 
-cursor = connection.cursor()
+cursor = connection.cursor(dictionary=True)
 
 cursor.execute("""
     select id from strategy where name = 'opening_range_breakdown'
@@ -21,7 +26,7 @@ strategy_id = cursor.fetchone()['id']
 cursor.execute("""
     select symbol, name from stock
     join stock_strategy on stock_strategy.stock_id = stock.id
-    where stock_strategy.strategy_id = ?
+    where stock_strategy.strategy_id = %s
 """, (strategy_id,))
 
 stocks = cursor.fetchall()

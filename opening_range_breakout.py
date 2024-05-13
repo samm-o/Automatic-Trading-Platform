@@ -1,16 +1,21 @@
-import sqlite3, config
+import mysql.connector, config
 from datetime import datetime
 from ib_insync import *
 import config
 import smtplib, ssl
 from  timezone import isDST
+from utilities import calc_quantity, buy_order, take_profit_order, stop_order, trailing_stop_order
 
 context = ssl.create_default_context()
 
-connection = sqlite3.connect(config.DB_FILE)
-connection.row_factory = sqlite3.Row
+connection = mysql.connector.connect(
+    host="127.0.0.1",
+    user="root",
+    password="toor",
+    database="app2"
+    )
 
-cursor = connection.cursor()
+cursor = connection.cursor(dictionary=True)
 
 cursor.execute("""
     select id from strategy where name = 'opening_range_breakout'
@@ -21,7 +26,7 @@ strategy_id = cursor.fetchone()['id']
 cursor.execute("""
     select symbol, name from stock
     join stock_strategy on stock_strategy.stock_id = stock.id
-    where stock_strategy.strategy_id = ?
+    where stock_strategy.strategy_id = %s
 """, (strategy_id,))
 
 stocks = cursor.fetchall()
@@ -85,31 +90,32 @@ for symbol in symbols:
         if symbol not in existing_order_symbols:
             try:
                 limit_price = after_opening_range_breakout.iloc[0]['close']
+                quantity = calc_quantity(limit_price)
                 
                 messages.append(f"placing order for {symbol} at {limit_price}, closed above {opening_range_high}\n\n{after_opening_range_breakout.iloc[0]}\n\n")    
                 print(f"placing order for {symbol} at {limit_price}, closed above {opening_range_high} at {after_opening_range_breakout.iloc[0]}")
+
+                # Create a contract
+                contract = Stock(symbol, 'SMART', 'USD')
+
+                # Create a market buy order
+                buy = buy_order(quantity)
                 
-                order = LimitOrder('BUY', 1, limit_price)
-                take_profit = LimitOrder('SELL', 1, limit_price + opening_range)
-                stop_loss = StopOrder('SELL', 1, limit_price - opening_range)
-
-                trade = ib.placeOrder(contract, order)
-                take_profit_order = ib.placeOrder(contract, take_profit)
-                stop_loss_order = ib.placeOrder(contract, stop_loss)
-
-                # Assign order IDs to the take profit and stop loss orders
-                trade.transmit = False
-                take_profit_order.transmit = False
-                stop_loss_order.transmit = True
-
-                trade_id = trade.order.orderId
-                take_profit_order.parentId = trade_id
-                stop_loss_order.parentId = trade_id
-
-                ib.placeOrder(contract, take_profit_order)
-                ib.placeOrder(contract, stop_loss_order)
-
-                ib.transmitOrders()
+                # Create a take profit order
+                take_profit_price = limit_price + opening_range
+                take_profit = take_profit_order(quantity, take_profit_price)
+                
+                # Create a stop loss order
+                stop_loss_price = limit_price - opening_range
+                stop_loss = stop_order(quantity, stop_loss_price)
+                
+                # Create a trailing stop order (Percentage)
+                trailing_stop = trailing_stop_order(quantity, 0.6)
+                
+                ib.placeOrder(contract, buy)
+                ib.placeOrder(contract, take_profit)
+                ib.placeOrder(contract, stop_loss)
+                
             except Exception as e:
                 print(e)
                 print(f"Could not place order for {symbol}")
