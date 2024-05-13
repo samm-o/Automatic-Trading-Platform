@@ -92,11 +92,11 @@ class OpeningRangeBreakout(backtrader.Strategy):
 
 if __name__ == '__main__':
     conn = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Fill in the above parameters with your own MySQL server details
 
     cursor = conn.cursor(dictionary=True, buffered=True)
     cursor.execute("""
