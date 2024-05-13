@@ -2,10 +2,10 @@ import mysql.connector, config
 
 try:
   connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor"
-  )
+    host="",
+    user="",
+    password=""
+  ) # Replace with your MySQL database credentials
 except Exception as e:
   print(e)
   exit(1)  # Exit the script if the connection cannot be established
@@ -19,11 +19,11 @@ cursor.execute("CREATE DATABASE IF NOT EXISTS app2")
 connection.close()  # Close the old connection first
 try:
   connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-  )
+    host="",
+    user="",
+    password="",
+    database=""
+  ) # Replace with your MySQL database credentials
 except Exception as e:
   print(e)
   exit(1)  # Exit the script if the connection cannot be established
