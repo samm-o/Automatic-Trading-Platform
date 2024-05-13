@@ -6,11 +6,11 @@ from  timezone import isDST
 import tulipy
 
 connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Fill in the above parameters with your own MySQL server details
 
 cursor = connection.cursor(dictionary=True)
 
