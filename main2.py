@@ -34,11 +34,11 @@ def index(request: Request):
     print(full_path)
     
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
     cursor = connection.cursor(dictionary=True)
     
     if 'new_closing_highs' in full_path:
@@ -135,11 +135,11 @@ def index(request: Request):
 @app.get("/stock/{symbol}")
 def stock_detail(request: Request, symbol):
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
     
     full_path = str(request.url)
     print(full_path)
@@ -171,11 +171,11 @@ def stock_detail(request: Request, symbol):
 def apply_strategy(strategy_id: int = Form(...), stock_id: int = Form(...)):
     print(f"Received strategy_id: {strategy_id}, stock_id: {stock_id}")
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
     cursor = connection.cursor(dictionary=True)
     
@@ -188,11 +188,11 @@ def apply_strategy(strategy_id: int = Form(...), stock_id: int = Form(...)):
 @app.get("/strategies")
 def strategies(request: Request):
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
     cursor = connection.cursor(dictionary=True)
     
     cursor.execute("""
@@ -215,11 +215,11 @@ def strategies(request: Request):
 @app.delete("/strategies/{strategy_id}/stocks/{symbol}")
 async def remove_stock(strategy_id: int, symbol: str):
     connection = mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        password="toor",
-        database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
     cursor = connection.cursor(dictionary=True)
     
     cursor.execute("""
@@ -246,8 +246,8 @@ async def login(data: dict):
     username = data.get('username')
     password = data.get('password')
 
-    # Replace 'admin' and 'secret' with your hardcoded username and password
-    if username == 'sammo' and password == 'trading':
+    # Fill in 'username' and 'password' with your hardcoded username and password
+    if username == '' and password == '':
         return {"success": True}
     else:
         return {"success": False}
