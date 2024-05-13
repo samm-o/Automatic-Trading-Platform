@@ -2,11 +2,11 @@ import mysql.connector, config
 import alpaca_trade_api as tradeapi
 
 connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-  )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
 cursor = connection.cursor(dictionary=True)
 
