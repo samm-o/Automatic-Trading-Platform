@@ -23,11 +23,12 @@ def index(request: Request):
     stock_filter = request.query_params.get('filter', False)
     
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
+    
     cursor = connection.cursor(dictionary=True)
     
     if stock_filter == 'new_closing_highs':
@@ -120,11 +121,11 @@ def index(request: Request):
 @app.get("/stock/{symbol}")
 def stock_detail(request: Request, symbol):
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
     cursor = connection.cursor(dictionary=True)
     
@@ -151,11 +152,11 @@ def stock_detail(request: Request, symbol):
 @app.post("/apply_strategy")
 def apply_strategy(strategy_id: int = Form(...), stock_id: int = Form(...)):
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
     cursor = connection.cursor(dictionary=True)
     
@@ -170,11 +171,11 @@ def apply_strategy(strategy_id: int = Form(...), stock_id: int = Form(...)):
 @app.get("/strategies")
 def strategies(request: Request):
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
     cursor = connection.cursor(dictionary=True)
     
     cursor.execute("""
@@ -198,11 +199,11 @@ async def trades(request: Request):
 @app.get("/strategy/{strategy_id}")
 def strategy(request: Request, strategy_id):
     connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="toor",
-    database="app2"
-    )
+    host="",
+    user="",
+    password="",
+    database=""
+    ) # Replace with your MySQL database credentials
 
     cursor = connection.cursor(dictionary=True)
     
