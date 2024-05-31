@@ -12,6 +12,28 @@ The Automatic stock trading platform seamlessly integrates with Interactive Brok
 4. **Robust Data Management**: Implements a MySQL database for efficient and reliable storage of application data.
 
 ---
+
+## Demo Images
+
+**Homepage**: Provides users with a dashboard, stock filter and search, trading view chart and selected stock's daily price action.
+<p align="center">
+  <img width="1000" height="500" src="https://github.com/samm-o/Automatic-Trading-Platform/assets/67648665/7ee17bbd-74b5-481f-9278-b0aaaac5e922">
+</p>
+
+
+**Strategy Page**: Facilitates what stocks will run which strategy for the next day.
+<p align="center">
+  <img width="1000" height="500" src="https://github.com/samm-o/Automatic-Trading-Platform/assets/67648665/c1b9a353-18c7-4715-b099-5f7eac100a0e">
+</p>
+
+
+**MySQL database**: Database of a year's worth of minute data processed in an hour, 4.8 million rows of QQQ price action.
+<p align="center">
+  <img width="850" height="500" src="https://github.com/samm-o/Automatic-Trading-Platform/assets/67648665/ef44166f-1940-499b-a22a-e3a293a7b7f7">
+</p>
+
+
+---
 ## Example of Pre-defined Strategy
 
 <h4>opening range breakout</h4>
